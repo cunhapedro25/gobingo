@@ -38,18 +38,17 @@ function bingo() {
   alert("BINGO!")
 }
 
-function downloadTable() {
-  domToPng(document.getElementById("table") as Node).then(dataUrl => {
-    const link = document.createElement('a')
-    link.download = 'screenshot.png'
-    link.href = dataUrl
-    link.click()
+function copyTableToClipboard() {
+  domToPng(document.getElementById("table") as Node).then(async dataUrl => {
+    const blob = await (await fetch(dataUrl)).blob()
+    const clipboardItem = new ClipboardItem({ [blob.type]: blob })
+    await navigator.clipboard.write([clipboardItem])
   })
 }
 </script>
 
 <template>
-  <button @click="downloadTable">Download table</button>
+  <button @click="copyTableToClipboard">Copy table to clipboard</button>
   <Datatable id="table" v-if="data" :entries="data" @bingo="bingo" />
 </template>
 
