@@ -8,13 +8,16 @@ defineProps({
   }
 })
 
-defineEmits()
+const emit = defineEmits(["bingo"])
 
 const state = ref(Array(25).fill(false))
 
 function toggle(n: number) {
   state.value[n] = !state.value[n]
-  console.log(state)
+
+  if(state.value.every((x) => x === true)) {
+    setTimeout(() => emit("bingo"), 50)
+  }
 }
 </script>
 

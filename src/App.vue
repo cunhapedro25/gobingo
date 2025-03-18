@@ -32,12 +32,16 @@ onMounted(async () => {
     data.value = null
   }
 })
+
+function bingo() {
+  alert("BINGO!")
+}
 </script>
 
 <template>
 
 
-  <Datatable v-if="data" :entries="data" />
+  <Datatable v-if="data" :entries="data" @bingo="bingo" />
 </template>
 
 <style scoped>
