@@ -3,8 +3,10 @@
 import {onMounted, type Ref, ref} from "vue"
 import Datatable from "./components/datatable.vue"
 import { domToPng } from 'modern-screenshot'
+import Bingo from "./components/bingo.vue"
 
 const data: Ref<String[] | null | undefined> = ref([])
+const showBingo = ref(false)
 
 function shuffle(array: String[]) {
   let currentIndex = array.length;
@@ -35,7 +37,10 @@ onMounted(async () => {
 })
 
 function bingo() {
-  alert("BINGO!")
+  showBingo.value = true
+  setTimeout(() => {
+    showBingo.value = false
+  }, 2000)
 }
 
 function copyTableToClipboard() {
@@ -49,6 +54,7 @@ function copyTableToClipboard() {
 </script>
 
 <template>
+  <Bingo v-if="showBingo" />
   <button @click="copyTableToClipboard">Copy table to clipboard</button>
   <Datatable id="table" v-if="data" :entries="data" @bingo="bingo" />
 </template>
