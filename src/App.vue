@@ -43,6 +43,7 @@ function copyTableToClipboard() {
     const blob = await (await fetch(dataUrl)).blob()
     const clipboardItem = new ClipboardItem({ [blob.type]: blob })
     await navigator.clipboard.write([clipboardItem])
+    alert("Copied!")
   })
 }
 </script>
