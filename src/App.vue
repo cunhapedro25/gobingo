@@ -2,6 +2,7 @@
 
 import {onMounted, type Ref, ref} from "vue"
 import Datatable from "./components/datatable.vue"
+import { domToPng } from 'modern-screenshot'
 
 const data: Ref<String[] | null | undefined> = ref([])
 
@@ -36,12 +37,20 @@ onMounted(async () => {
 function bingo() {
   alert("BINGO!")
 }
+
+function downloadTable() {
+  domToPng(document.getElementById("table") as Node).then(dataUrl => {
+    const link = document.createElement('a')
+    link.download = 'screenshot.png'
+    link.href = dataUrl
+    link.click()
+  })
+}
 </script>
 
 <template>
-
-
-  <Datatable v-if="data" :entries="data" @bingo="bingo" />
+  <button @click="downloadTable">Download table</button>
+  <Datatable id="table" v-if="data" :entries="data" @bingo="bingo" />
 </template>
 
 <style scoped>
