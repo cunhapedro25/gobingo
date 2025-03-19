@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="absolute w-full h-full bg-black/75 flex justify-center items-center transition-all duration-500">
+  <div class="fixed z-50 top-0 left-0 w-full h-full bg-black/75 flex justify-center items-center transition-all duration-500">
     <div class="text-6xl font-bold text-white animate-pulse">BINGO!!!</div>
   </div>
 </template>
