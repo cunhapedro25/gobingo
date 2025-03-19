@@ -1,15 +1,37 @@
 <script setup lang="ts">
 import {onMounted, type Ref, ref} from "vue"
-import { domToPng } from 'modern-screenshot'
+import {domToPng} from 'modern-screenshot'
 import Bingo from "./components/bingo.vue"
 import BingoCard from "./components/BingoCard.vue"
 
 const data: Ref<String[] | null | undefined> = ref([])
 const showBingo = ref(false)
-const title = ref<String>("goBingo")
+const title = ref<String>("GoBingo")
 const originalPhrases = ref<String[]>([])
 const bingoCardRef = ref<InstanceType<typeof BingoCard> | null>(null)
+const fileList = ref<{ name: string; title: string }[]>([])
 
+async function fetchFileList() {
+  try {
+    const res = await fetch("/data/list.txt")
+    if (!res.ok) {
+      console.error("Failed to fetch file list")
+      return
+    }
+
+    const files = (await res.text()).split("\n").filter((file) => file.trim())
+    fileList.value = await Promise.all(
+        files.map(async (file) => {
+          const fileRes = await fetch(`/data/${file}`)
+          if (!fileRes.ok) throw new Error(`Failed to fetch file: ${file}`)
+          const firstLine = (await fileRes.text()).split("\n")[0] || file
+          return {name: file, title: firstLine}
+        })
+    );
+  } catch (e) {
+    console.error("Error fetching file list:", e)
+  }
+}
 function shuffle(array: String[]) {
   let currentIndex = array.length
 
@@ -27,6 +49,12 @@ async function loadData() {
     const urlParams = new URLSearchParams(window.location.search)
     const file = urlParams.get('file')
 
+    if (!file) {
+      document.title = title.value.toString()
+      data.value = null
+      return
+    }
+
     const res = await fetch(`/data/${file}`)
     let phrases = (await res.text()).split("\n")
     title.value = phrases.shift() || "goBingo";
@@ -42,6 +70,7 @@ async function loadData() {
 }
 
 onMounted(async () => {
+  await fetchFileList()
   await loadData()
 })
 
@@ -82,7 +111,7 @@ function copyLinkToClipboard() {
 
 <template>
   <Bingo v-if="showBingo" />
-  <div class="absolute top-0 right-0 flex justify-center gap-2 p-2">
+  <div v-if="data" class="absolute top-0 right-0 flex justify-center gap-2 p-2">
     <button
         class="flex justify-center p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
         @click="reshuffleData"
@@ -115,6 +144,16 @@ function copyLinkToClipboard() {
           @bingo="bingo"
           ref="bingoCardRef"
       />
+      <div v-else class="flex flex-wrap gap-2">
+        <a
+            v-for="file in fileList"
+            :key="file.name"
+            class="flex justify-center p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
+            :href="`/?file=${file.name}`"
+        >
+          {{ file.title }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
