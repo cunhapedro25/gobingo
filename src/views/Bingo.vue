@@ -72,10 +72,23 @@ function copyLinkToClipboard() {
   navigator.clipboard.writeText(window.location.href)
   alert("Link copied!")
 }
+
+function returnHome() {
+  //rout
+}
 </script>
 
 <template>
   <BingoCelebration v-if="showBingo" />
+  <div class="absolute top-0 left-0 flex justify-center gap-2 p-2">
+    <a
+        class="flex justify-center p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
+        href="/"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+  </div>
+
   <div v-if="bingo" class="absolute top-0 right-0 flex justify-center gap-2 p-2">
     <button
         class="flex justify-center p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
