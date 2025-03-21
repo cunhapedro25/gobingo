@@ -5,6 +5,7 @@ import BingoCard from "@/components/BingoCard.vue"
 import BingoCelebration from "@/components/BingoCelebration.vue"
 import axios from "axios"
 import {useRoute} from "vue-router"
+import Header from "@/components/Header.vue";
 
 const showBingo = ref(false)
 const bingoCardRef = ref<InstanceType<typeof BingoCard> | null>(null)
@@ -75,8 +76,26 @@ function copyLinkToClipboard() {
 </script>
 
 <template>
+  <Header/>
+
   <BingoCelebration v-if="showBingo" />
-  <div v-if="bingo" class="absolute top-0 right-0 flex justify-center gap-2 p-2">
+
+  <div class="w-screen h-screen flex justify-center items-center py-6 overflow-hidden">
+    <div id="card" class="h-full flex flex-col justify-center items-center gap-2 p-2">
+      <div class="bg-white rounded-2xl p-2 text-center">
+        <h1 class="text-6xl">{{ bingo?.title }}</h1>
+      </div>
+
+      <BingoCard
+          v-if="shuffledPhrases"
+          :entries="shuffledPhrases"
+          @bingo="showBingoScreen"
+          ref="bingoCardRef"
+      />
+    </div>
+  </div>
+
+  <div v-if="bingo" class="absolute bottom-0 right-0 flex justify-center gap-2 p-2">
     <button
         class="flex justify-center p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
         @click="reshuffleData"
@@ -95,21 +114,6 @@ function copyLinkToClipboard() {
     >
       <span class="material-symbols-outlined">image</span>
     </button>
-  </div>
-
-  <div class="w-screen h-screen flex justify-center items-center py-6 overflow-hidden">
-    <div id="card" class="h-full flex flex-col justify-center items-center gap-2 p-2">
-      <div class="bg-white rounded-2xl p-2 text-center">
-        <h1 class="text-6xl">{{ bingo?.title }}</h1>
-      </div>
-
-      <BingoCard
-          v-if="shuffledPhrases"
-          :entries="shuffledPhrases"
-          @bingo="showBingoScreen"
-          ref="bingoCardRef"
-      />
-    </div>
   </div>
 </template>
 
