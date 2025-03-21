@@ -1,2 +1,48 @@
 @import "tailwindcss";
 @import 'material-symbols';
+
+
+#app {
+    @apply flex flex-col w-screen h-screen overflow-x-hidden;
+}
+
+.button{
+    @apply w-fit px-2 py-2 flex gap-2 rounded-md select-none active:translate-y-1 text-white font-bold
+    shadow-[0_0.25rem] active:shadow-none shadow-blue-700 bg-blue-500 hover:bg-blue-500/90
+    transition-all duration-150 ease-in-out;
+}
+
+.button.danger{
+    @apply bg-red-500 shadow-red-700 hover:bg-red-400;
+}
+
+.button.disabled{
+    @apply bg-gray-500 shadow-gray-700
+    active:translate-y-[0.05rem] active:shadow-[0_0.20rem] active:shadow-gray-700;
+}
+
+.container {
+    @apply absolute z-10 right-0 top-full mt-2 overflow-hidden w-full min-w-fit overflow-y-auto transition-all duration-300 ease-in-out
+    flex flex-col rounded-md bg-gray-100 focus:max-h-44 focus-within:max-h-44;
+}
+
+.item {
+    @apply flex gap-2 justify-start items-center text-nowrap w-full min-w-fit py-2 px-4
+    hover:bg-gray-200 transition-all duration-100 ease-in-out;
+}
+
+.item.danger {
+    @apply text-red-700 hover:bg-red-500 hover:text-white;
+}
+
+.modal{
+    @apply fixed top-0 left-0 w-screen h-screen p-6 bg-black/20 flex justify-center items-center z-50;
+
+    .content{
+        @apply bg-white py-6 px-4 rounded-xl flex flex-col gap-2 max-h-full overflow-auto;
+
+        .slot{
+            @apply flex flex-col gap-2 px-2 max-h-full h-fit overflow-auto;
+        }
+    }
+}
