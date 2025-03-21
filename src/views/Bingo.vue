@@ -101,7 +101,7 @@ function toggleChat() {
       />
     </div>
     <div v-if="showChat" class="w-full h-full p-8">
-      <Chat class="h-full rounded-2xl" />
+      <Chat :bingo-id="bingo._id" class="h-full rounded-2xl" />
     </div>
   </div>
 

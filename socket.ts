@@ -3,6 +3,11 @@ import { Server as HttpServer } from "node:http"
 
 let io: Server
 
+interface Message {
+    author: string,
+    content: string
+}
+
 export const initIO = (httpServer: HttpServer) => {
     io = new Server(httpServer, {
         cors: {
@@ -15,11 +20,19 @@ export const initIO = (httpServer: HttpServer) => {
     })
 
     io.on('connection', (socket) => {
-        socket.on('joinPoll', (pollId) => {
-            socket.join(`poll-${pollId}`)
+        let chatRoom: string | undefined
+
+        socket.on('joinChat', (bingoId) => {
+            chatRoom = `chat-${bingoId}`
+            socket.join(chatRoom)
         })
-        socket.on('joinHome', () => {
-            socket.join("home")
+
+        socket.on('message', (message) => {
+            console.log(socket)
+            socket.to(chatRoom).emit('newMessage', {
+                author: "Someone else",
+                content: message
+            })
         })
     })
 
