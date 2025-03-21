@@ -8,7 +8,8 @@ const router = express.Router()
 router.use(errorHandler)
 
 router.get("/", async (req, res) => {
-    res.json(Bingo.find())
+    const bingos = await Bingo.find().select('_id title')
+    res.json(bingos)
 })
 
 router.get("/:id", async (req, res) => {
