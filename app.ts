@@ -22,7 +22,8 @@ if(!process.env.SESSION_SECRET) {
 }
 
 const httpServer = createServer(app)
-const io = initIO(httpServer)
+const sessionData = session({ secret: process.env.SESSION_SECRET!, resave: false, saveUninitialized: true })
+const io = initIO(httpServer, sessionData)
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -37,7 +38,7 @@ const __dirname = path.dirname(__filename)
 
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'dist')))
-app.use(session({ secret: process.env.SESSION_SECRET!, resave: false, saveUninitialized: true }))
+app.use(sessionData)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use("/api", apiRoutes)

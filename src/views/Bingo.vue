@@ -100,7 +100,7 @@ function toggleChat() {
           ref="bingoCardRef"
       />
     </div>
-    <div v-if="showChat" class="w-full h-full p-8">
+    <div class="w-full h-full p-8" :class="showChat ? '' : 'hidden'">
       <Chat :bingo-id="bingo._id" class="h-full rounded-2xl" />
     </div>
   </div>

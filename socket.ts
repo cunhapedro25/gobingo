@@ -3,17 +3,14 @@ import { Server as HttpServer } from "node:http"
 
 let io: Server
 
-interface Message {
-    author: string,
-    content: string
-}
-
-export const initIO = (httpServer: HttpServer) => {
+export const initIO = (httpServer: HttpServer, sessionData: any) => {
     io = new Server(httpServer, {
         cors: {
             origin: '*'
         }
     })
+
+    io.engine.use(sessionData)
 
     io.engine.use((req: any, res: any, next: any) => {
         next();
@@ -28,9 +25,13 @@ export const initIO = (httpServer: HttpServer) => {
         })
 
         socket.on('message', (message) => {
-            console.log(socket)
+            // @ts-ignore
+            if(!socket.request.session.passport) {
+                return
+            }
             socket.to(chatRoom).emit('newMessage', {
-                author: "Someone else",
+                // @ts-ignore
+                author: socket.request.session.passport.user.name,
                 content: message
             })
         })
