@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - ${PORT}:10000
+    volumes:
+      - ./:/app
+    environment:
+      MONGO_URL: ${MONGO_URL}
+      SESSION_SECRET: ${SESSION_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+    depends_on:
+      - db
+
+  db:
+    image: mongo
