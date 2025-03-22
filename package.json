@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "concurrently \"vite build --watch\" \"tsx app.ts\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "tsx app.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",
