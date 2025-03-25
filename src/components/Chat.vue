@@ -81,7 +81,7 @@ function adjustTextareaHeight(event: Event) {
   <div class="flex flex-col p-2 bg-gray-300">
     <div ref="messages" class="overflow-y-scroll overflow-x-clip break-words break-all p-2">
     </div>
-    <div class="mt-auto w-full flex items-center gap-2 min-h-fit bg-white rounded-2xl p-2 pl-1" v-if="profile.data">
+    <div class="mt-auto w-full flex gap-2 min-h-fit bg-white rounded-2xl p-2 pl-1" v-if="profile.data">
       <textarea
           ref="textareaRef"
           type="text"
