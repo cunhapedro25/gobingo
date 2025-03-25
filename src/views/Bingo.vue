@@ -14,7 +14,7 @@ const bingoCardRef = ref<InstanceType<typeof BingoCard> | null>(null)
 
 const bingo = ref<Bingo | null | undefined>(undefined)
 const shuffledPhrases = ref<String[]>([])
-const showChat = ref(true)
+const showChat = ref(false)
 
 const route = useRoute()
 
