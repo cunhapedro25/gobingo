@@ -87,7 +87,7 @@ function toggleChat() {
 
   <BingoCelebration v-if="showBingo" />
 
-  <div class="w-screen h-screen flex justify-center items-center py-6 overflow-hidden">
+  <div class="relative w-screen h-screen flex flex-col md:flex-row justify-center items-center py-6 overflow-hidden">
     <div id="card" class="w-full h-full flex flex-col justify-center gap-2 p-2" :class="showChat ? 'items-start' : 'items-center'">
       <div class="bg-white rounded-2xl p-2 text-center">
         <h1 class="text-6xl">{{ bingo?.title }}</h1>
@@ -100,7 +100,7 @@ function toggleChat() {
           ref="bingoCardRef"
       />
     </div>
-    <div class="w-full h-full p-8" :class="showChat ? '' : 'hidden'">
+    <div class="w-full h-full absolute md:relative p-8" :class="showChat ? '' : 'hidden'">
       <Chat :bingo-id="bingo._id" class="h-full rounded-2xl" />
     </div>
   </div>
